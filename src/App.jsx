@@ -3,6 +3,7 @@ import HeaderFooter from "./components/HeaderFooter";
 import { Button } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { forgotPasswordAction, signInAction, signUpAction } from "./store/actions/asyncAuthAction";
+import CartItems from "./components/CartItems";
 
 function App() {
   const dispatch = useDispatch();
@@ -30,7 +31,13 @@ function App() {
 
   return (
     <div>
-      {/* <HeaderFooter></HeaderFooter> */}
+    <HeaderFooter></HeaderFooter>
+    <Routes>
+      <Route path="cartItems" element={<CartItems/>}>
+
+      </Route>
+    </Routes>
+     
       <Button onClick={handleSignUp}>Signup</Button>
       <Button onClick={handleSignIn}>Signin</Button>
       <Button onClick={handleForgotPassword}>Forgot Password</Button>

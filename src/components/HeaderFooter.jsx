@@ -33,7 +33,7 @@ const HeaderFooter = () => {
             <Typography sx={{ flexGrow: 1 }}>ABOUT</Typography>
             <Typography sx={{ flexGrow: 1 }}>STORE</Typography>
             <Badge badgeContent={1}>
-              <ShoppingCart></ShoppingCart>
+              <ShoppingCart onClick={()=>navigate("/cartItems")}></ShoppingCart>
             </Badge>
           </Toolbar>
         </AppBar>
@@ -49,7 +49,7 @@ const HeaderFooter = () => {
           fontStyle: "italic",
         }}
       >
-        THE PANTHER
+      PANTHER
       </div>
 
       {/* <div>
@@ -243,7 +243,9 @@ const HeaderFooter = () => {
       </div> */}
       <div>
         {articles.map((items) => (
-          <div key={items.id}>{items.name}</div>
+          <div key={items.id}>{items.name}
+          
+          </div>
         ))}
       </div>
 
