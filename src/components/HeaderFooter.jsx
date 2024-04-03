@@ -6,6 +6,7 @@ import {
 } from "@mui/icons-material";
 import {
   AppBar,
+  Avatar,
   Badge,
   Button,
   Card,
@@ -14,12 +15,14 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { addCartItem } from "../store/EcommSlice";
 
 const HeaderFooter = () => {
   const articles = useSelector((state) => state.EcommStore.ListOfItems);
-
+  const cartItem = useSelector((state) => state.EcommStore.cart);
+const dispatch=useDispatch()
   console.log(articles);
 
   const navigate = useNavigate();
@@ -32,8 +35,10 @@ const HeaderFooter = () => {
             <Typography sx={{ flexGrow: 1 }}>HOME</Typography>
             <Typography sx={{ flexGrow: 1 }}>ABOUT</Typography>
             <Typography sx={{ flexGrow: 1 }}>STORE</Typography>
-            <Badge badgeContent={1}>
-              <ShoppingCart onClick={()=>navigate("/cartItems")}></ShoppingCart>
+            <Badge badgeContent={cartItem.length}>
+              <ShoppingCart
+                onClick={() => navigate("/cartItems")}
+              ></ShoppingCart>
             </Badge>
           </Toolbar>
         </AppBar>
@@ -49,204 +54,35 @@ const HeaderFooter = () => {
           fontStyle: "italic",
         }}
       >
-      PANTHER
+        PANTHER
       </div>
-
-      {/* <div>
-        <Typography
-          sx={{
-            fontSize: "30px",
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "20px",
-          }}
-        >
-          {" "}
-          MUSIC
-        </Typography>
-
-        <div style={{ display: "flex" }}>
-          <Card
-            sx={{
-              margin: "20px",
-              padding: "10px",
-              width: "400px",
-              bgcolor: "lightgray",
-            }}
-          >
-            <Typography>Album 1</Typography>
-            <img
-              src="https://static.vecteezy.com/system/resources/thumbnails/001/953/233/small/space-retro-futurism-city-background-with-modern-elements-free-vector.jpg"
-              alt="image"
-              style={{ maxWidth: "100%" }}
-            />
-            <div>
-              {" "}
-              <Button variant="contained">ADD TO CART</Button>
+      <div style={{ display: "flex", justifyContent: "center" }}> ALBUMS</div>
+      <div style={{ display: "flex", flexWrap: "wrap" }}>
+        {articles.map((items) =>
+          items.itemList.map((articles) => (
+            <div key={articles.id}>
+              <Card
+                sx={{ bgcolor: "yellow", width: "300px", marginLeft: "20px" ,marginBottom:"70px"}}
+              >
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  {articles.name}
+                </div>
+                <img
+                  src={articles.image}
+                  alt="loading"
+                  style={{ maxWidth: "100%",maxHeight:"100%" }}
+                />
+                <div>
+                  {" "}
+                  Price:-{articles.price}
+                  <Button variant="contained" sx={{ marginLeft: "60px" }} onClick={()=>{dispatch(addCartItem(articles)),alert("Your Product: {articles.name} added to cart")}}>
+                    ADD TO CART
+                  </Button>
+                </div>
+              </Card>
             </div>
-          </Card>
-
-          <Card
-            sx={{
-              margin: "20px",
-              padding: "10px",
-              width: "400px",
-              bgcolor: "lightgray",
-            }}
-          >
-            <Typography>Album 2</Typography>
-            <img
-              src="https://static.vecteezy.com/system/resources/thumbnails/001/953/233/small/space-retro-futurism-city-background-with-modern-elements-free-vector.jpg"
-              alt="image"
-              style={{ maxWidth: "100%" }}
-            />
-            <div>
-              {" "}
-              <Button variant="contained">ADD TO CART</Button>
-            </div>
-          </Card>
-
-          <Card
-            sx={{
-              margin: "20px",
-              padding: "10px",
-              width: "400px",
-              bgcolor: "lightgray",
-            }}
-          >
-            <Typography>Album 3</Typography>
-            <img
-              src="https://static.vecteezy.com/system/resources/thumbnails/001/953/233/small/space-retro-futurism-city-background-with-modern-elements-free-vector.jpg"
-              alt="image"
-              style={{ maxWidth: "100%" }}
-            />
-            <div>
-              {" "}
-              <Button variant="contained">ADD TO CART</Button>
-            </div>
-          </Card>
-
-          <Card
-            sx={{
-              margin: "20px",
-              padding: "10px",
-              width: "400px",
-              bgcolor: "lightgray",
-            }}
-          >
-            <Typography>Album 4</Typography>
-            <img
-              src="https://static.vecteezy.com/system/resources/thumbnails/001/953/233/small/space-retro-futurism-city-background-with-modern-elements-free-vector.jpg"
-              alt="image"
-              style={{ maxWidth: "100%" }}
-            />
-            <div>
-              {" "}
-              <Button variant="contained">ADD TO CART</Button>
-            </div>
-          </Card>
-        </div>
-      </div>
-
-      <div>
-        <Typography
-          sx={{
-            fontSize: "30px",
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "20px",
-          }}
-        >
-          MERRCH
-        </Typography>
-        <div style={{ display: "flex", marginBottom: "80px" }}>
-          <Card
-            sx={{
-              margin: "20px",
-              padding: "10px",
-              width: "400px",
-              bgcolor: "lightgray",
-            }}
-          >
-            <Typography>Album 1</Typography>
-            <img
-              src="https://static.vecteezy.com/system/resources/thumbnails/001/953/233/small/space-retro-futurism-city-background-with-modern-elements-free-vector.jpg"
-              alt="image"
-              style={{ maxWidth: "100%" }}
-            />
-            <div>
-              {" "}
-              <Button variant="contained">ADD TO CART</Button>
-            </div>
-          </Card>
-
-          <Card
-            sx={{
-              margin: "20px",
-              padding: "10px",
-              width: "400px",
-              bgcolor: "lightgray",
-            }}
-          >
-            <Typography>Album 2</Typography>
-            <img
-              src="https://static.vecteezy.com/system/resources/thumbnails/001/953/233/small/space-retro-futurism-city-background-with-modern-elements-free-vector.jpg"
-              alt="image"
-              style={{ maxWidth: "100%" }}
-            />
-            <div>
-              {" "}
-              <Button variant="contained">ADD TO CART</Button>
-            </div>
-          </Card>
-
-          <Card
-            sx={{
-              margin: "20px",
-              padding: "10px",
-              width: "400px",
-              bgcolor: "lightgray",
-            }}
-          >
-            <Typography>Album 3</Typography>
-            <img
-              src="https://static.vecteezy.com/system/resources/thumbnails/001/953/233/small/space-retro-futurism-city-background-with-modern-elements-free-vector.jpg"
-              alt="image"
-              style={{ maxWidth: "100%" }}
-            />
-            <div>
-              {" "}
-              <Button variant="contained">ADD TO CART</Button>
-            </div>
-          </Card>
-
-          <Card
-            sx={{
-              margin: "20px",
-              padding: "10px",
-              width: "400px",
-              bgcolor: "lightgray",
-            }}
-          >
-            <Typography>Album 4</Typography>
-            <img
-              src="https://static.vecteezy.com/system/resources/thumbnails/001/953/233/small/space-retro-futurism-city-background-with-modern-elements-free-vector.jpg"
-              alt="image"
-              style={{ maxWidth: "100%" }}
-            />
-            <div>
-              {" "}
-              <Button variant="contained">ADD TO CART</Button>
-            </div>
-          </Card>
-        </div>
-      </div> */}
-      <div>
-        {articles.map((items) => (
-          <div key={items.id}>{items.name}
-          
-          </div>
-        ))}
+          ))
+        )}
       </div>
 
       <footer
