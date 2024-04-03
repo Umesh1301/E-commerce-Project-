@@ -33,7 +33,7 @@ const dispatch=useDispatch()
           <Toolbar>
             {" "}
             <Typography sx={{ flexGrow: 1 }}>HOME</Typography>
-            <Typography sx={{ flexGrow: 1 }}>ABOUT</Typography>
+            <Typography sx={{ flexGrow: 1,cursor:"pointer"}} onClick={()=>navigate("/About")}> ABOUT</Typography>
             <Typography sx={{ flexGrow: 1 }}>STORE</Typography>
             <Badge badgeContent={cartItem.length}>
               <ShoppingCart
