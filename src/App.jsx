@@ -5,6 +5,9 @@ import { useDispatch } from "react-redux";
 import { forgotPasswordAction, signInAction, signUpAction } from "./store/actions/asyncAuthAction";
 import CartItems from "./components/CartItems";
 import About from "./components/About";
+import Home from "./components/Home";
+import Store from "./components/Store";
+
 
 function App() {
   const dispatch = useDispatch();
@@ -31,9 +34,12 @@ function App() {
   };
 
   return (
-    <div>  <Routes>
+    <div> <HeaderFooter></HeaderFooter> 
+    <Routes>
 
-    <Route path="/" element={<HeaderFooter></HeaderFooter>}></Route>
+   
+    <Route path="/store" element={<Store/>}/>
+    <Route path="/home" element={<Home/>}/>
   
       <Route path="cartItems" element={<CartItems/>}>
 

@@ -22,7 +22,7 @@ import { addCartItem } from "../store/EcommSlice";
 const HeaderFooter = () => {
   const articles = useSelector((state) => state.EcommStore.ListOfItems);
   const cartItem = useSelector((state) => state.EcommStore.cart);
-const dispatch=useDispatch()
+  const dispatch = useDispatch();
   console.log(articles);
 
   const navigate = useNavigate();
@@ -32,9 +32,20 @@ const dispatch=useDispatch()
         <AppBar>
           <Toolbar>
             {" "}
-            <Typography sx={{ flexGrow: 1 }}>HOME</Typography>
-            <Typography sx={{ flexGrow: 1,cursor:"pointer"}} onClick={()=>navigate("/About")}> ABOUT</Typography>
-            <Typography sx={{ flexGrow: 1 }}>STORE</Typography>
+            <Typography
+              sx={{ flexGrow: 1, cursor: "pointer" }}
+              onClick={() => navigate("/home")}
+            >
+              HOME
+            </Typography>
+            <Typography
+              sx={{ flexGrow: 1, cursor: "pointer" }}
+              onClick={() => navigate("/About")}
+            >
+              {" "}
+              ABOUT
+            </Typography>
+            <Typography sx={{ flexGrow: 1,cursor:'pointer' }} onClick={()=>navigate("/store")}>STORE</Typography>
             <Badge badgeContent={cartItem.length}>
               <ShoppingCart
                 onClick={() => navigate("/cartItems")}
@@ -43,47 +54,7 @@ const dispatch=useDispatch()
           </Toolbar>
         </AppBar>
       </div>
-      <div
-        style={{
-          marginTop: "66px",
-          backgroundColor: "grey",
-          fontSize: "80px",
-          color: "white",
-          display: "flex",
-          justifyContent: "center",
-          fontStyle: "italic",
-        }}
-      >
-        PANTHER
-      </div>
-      <div style={{ display: "flex", justifyContent: "center" }}> ALBUMS</div>
-      <div style={{ display: "flex", flexWrap: "wrap" }}>
-        {articles.map((items) =>
-          items.itemList.map((articles) => (
-            <div key={articles.id}>
-              <Card
-                sx={{ bgcolor: "yellow", width: "300px", marginLeft: "20px" ,marginBottom:"70px"}}
-              >
-                <div style={{ display: "flex", justifyContent: "center" }}>
-                  {articles.name}
-                </div>
-                <img
-                  src={articles.image}
-                  alt="loading"
-                  style={{ maxWidth: "100%",maxHeight:"100%" }}
-                />
-                <div>
-                  {" "}
-                  Price:-{articles.price}
-                  <Button variant="contained" sx={{ marginLeft: "60px" }} onClick={()=>{dispatch(addCartItem(articles)),alert("Your Product: {articles.name} added to cart")}}>
-                    ADD TO CART
-                  </Button>
-                </div>
-              </Card>
-            </div>
-          ))
-        )}
-      </div>
+    
 
       <footer
         style={{
