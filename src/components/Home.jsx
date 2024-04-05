@@ -1,9 +1,32 @@
 import { PlayCircleOutlineRounded } from "@mui/icons-material";
-import { Button } from "@mui/material";
-import React from "react";
+import { Button, Card } from "@mui/material";
+import React, { useState } from "react";
 // import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 
 const Home = () => {
+  const [movie, setMovie] = useState([]);
+
+  const fetchMoviesHandler = () => {
+    fetch("https://swapi.dev/api/films/")
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        const transformedMovie = data.results.map((movieData) => {
+          return {
+            id: movieData.episode_id,
+            title: movieData.title,
+            openingText: movieData.opening_crawl,
+            releaseDate: movieData.release_date,
+          };
+        });
+        setMovie(transformedMovie);
+      });
+    console.log(movie);
+  };
+
+  console.log(movie);
+
   return (
     <div>
       <div
@@ -23,11 +46,18 @@ const Home = () => {
           {" "}
           <Button
             variant="outlined"
-            sx={{ color: "white", borderColor: "blue" }}
+            sx={{ color: "white", borderColor: "skyblue" }}
+            onClick={fetchMoviesHandler}
           >
             Get our Latest Album
           </Button>
-          <div style={{ color: "skyblue",display:'flex',justifyContent:'center' }}>
+          <div
+            style={{
+              color: "skyblue",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
             <PlayCircleOutlineRounded
               sx={{ cursor: "pointer", fontSize: "100px" }}
             />
@@ -41,7 +71,7 @@ const Home = () => {
         {" "}
         TOUR
       </div>
-      <div
+      {/* <div
         style={{
           display: "flex",
           flexDirection:'column',
@@ -82,7 +112,31 @@ const Home = () => {
         </div>
         
         
-      </div>
+      </div> */}
+      <section
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        {movie.map((listofMovie) => (
+          <div key={listofMovie.id}>
+            <Card
+              sx={{
+                bgcolor: "blue",
+                width: "300px",
+                marginBottom: "20px",
+                color: "white",
+              }}
+            >
+              <div>{listofMovie.title}</div>
+              <div>{listofMovie.openingText}</div>
+            </Card>
+          </div>
+        ))}
+      </section>
     </div>
   );
 };
