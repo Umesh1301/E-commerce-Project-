@@ -2,36 +2,90 @@ import { PlayCircleOutlineRounded } from "@mui/icons-material";
 import { Button, Card } from "@mui/material";
 import React, { useState } from "react";
 // import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
-import CircularProgress from '@mui/material/CircularProgress';
+import CircularProgress from "@mui/material/CircularProgress";
 
 const Home = () => {
   const [movie, setMovie] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  console.log(isLoading)
+  const [error, setError] = useState(null);
+  console.log(error);
 
   const fetchMoviesHandler = async () => {
-    setIsLoading(true)
-    const response = await fetch("https://swapi.dev/api/films/");
-    console.log(response)
-    if(response.status === 200){
-     setIsLoading(false)
-    }
-    
-    // .then((response) => {
-    const data = await response.json();
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await fetch("https://swapi.dev/api/films/");
+      if (!response.ok) {
+        throw new Error("Something Went Wrong");
+      }
+      console.log(response);
+      // if(response.status === 200){
+      //  setIsLoading(false)
+      // }
 
-    const transformedMovie = data.results.map((movieData) => {
-      return {
-        id: movieData.episode_id,
-        title: movieData.title,
-        openingText: movieData.opening_crawl,
-        releaseDate: movieData.release_date,
-      };
-    });
-    setMovie(transformedMovie);
+      // .then((response) => {
+      const data = await response.json();
+
+      const transformedMovie = data.results.map((movieData) => {
+        return {
+          id: movieData.episode_id,
+          title: movieData.title,
+          openingText: movieData.opening_crawl,
+          releaseDate: movieData.release_date,
+        };
+      });
+      setMovie(transformedMovie);
+    } catch (error) {
+      // setError(error.SyntaxError);
+      setError(error.message);
+
+      console.log(error);
+    }
+    setIsLoading(false);
   };
 
+  // const t = setTimeout(() => {
+  //   fetchMoviesHandler();
+  // }, 5000);
+  
+  // const clearTimeOut = () => {
+  //   console.log("first")
+  //   clearTimeout(t);
+  // }
+
+
+
   console.log(movie);
+
+  let content = <p>Found no Movies</p>;
+  if (movie.length > 0) {
+    content = (
+      <div>
+        {" "}
+        {movie.map((listofMovie) => (
+          <div key={listofMovie.id}>
+            <Card
+              sx={{
+                bgcolor: "blue",
+                width: "300px",
+                marginBottom: "20px",
+                color: "white",
+              }}
+            >
+              <div>{listofMovie.title}</div>
+              <div>{listofMovie.openingText}</div>
+            </Card>
+          </div>
+        ))}{" "}
+      </div>
+    );
+  }
+  if (error) {
+    content = <p>{error}</p>;
+  }
+  if (isLoading) {
+    content = <p>Loading....</p>;
+  }
 
   return (
     <div>
@@ -77,6 +131,7 @@ const Home = () => {
         {" "}
         TOUR
       </div>
+      <Button onClick={clearTimeOut}>Stop Retrying</Button>
       {/* <div
         style={{
           display: "flex",
@@ -127,22 +182,35 @@ const Home = () => {
           alignItems: "center",
         }}
       >
-        {isLoading?<div> <CircularProgress /></div>: <div> {movie.map((listofMovie) => (
-          <div key={listofMovie.id}>
-            <Card
-              sx={{
-                bgcolor: "blue",
-                width: "300px",
-                marginBottom: "20px",
-                color: "white",
-              }}
-            >
-              <div>{listofMovie.title}</div>
-              <div>{listofMovie.openingText}</div>
-            </Card>
+        {/* {isLoading ? (
+          <div>
+            {" "}
+            <CircularProgress />
           </div>
-        ))} </div>}
-       
+        ) : (
+          <div>
+            {" "}
+            {movie.map((listofMovie) => (
+              <div key={listofMovie.id}>
+                <Card
+                  sx={{
+                    bgcolor: "blue",
+                    width: "300px",
+                    marginBottom: "20px",
+                    color: "white",
+                  }}
+                >
+                  <div>{listofMovie.title}</div>
+                  <div>{listofMovie.openingText}</div>
+                </Card>
+              </div>
+            ))}{" "}
+          </div>
+        )}
+        {!isLoading && movie.length === 0 && !error && <p>Movie not found</p>}
+        {!isLoading && error && <p>{error}</p>} */}
+
+        {content}
       </section>
     </div>
   );
