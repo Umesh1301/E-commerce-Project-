@@ -2,27 +2,33 @@ import { PlayCircleOutlineRounded } from "@mui/icons-material";
 import { Button, Card } from "@mui/material";
 import React, { useState } from "react";
 // import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Home = () => {
   const [movie, setMovie] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  console.log(isLoading)
 
-  const fetchMoviesHandler = () => {
-    fetch("https://swapi.dev/api/films/")
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        const transformedMovie = data.results.map((movieData) => {
-          return {
-            id: movieData.episode_id,
-            title: movieData.title,
-            openingText: movieData.opening_crawl,
-            releaseDate: movieData.release_date,
-          };
-        });
-        setMovie(transformedMovie);
-      });
-    console.log(movie);
+  const fetchMoviesHandler = async () => {
+    setIsLoading(true)
+    const response = await fetch("https://swapi.dev/api/films/");
+    console.log(response)
+    if(response.status === 200){
+     setIsLoading(false)
+    }
+    
+    // .then((response) => {
+    const data = await response.json();
+
+    const transformedMovie = data.results.map((movieData) => {
+      return {
+        id: movieData.episode_id,
+        title: movieData.title,
+        openingText: movieData.opening_crawl,
+        releaseDate: movieData.release_date,
+      };
+    });
+    setMovie(transformedMovie);
   };
 
   console.log(movie);
@@ -121,7 +127,7 @@ const Home = () => {
           alignItems: "center",
         }}
       >
-        {movie.map((listofMovie) => (
+        {isLoading?<div> <CircularProgress /></div>: <div> {movie.map((listofMovie) => (
           <div key={listofMovie.id}>
             <Card
               sx={{
@@ -135,7 +141,8 @@ const Home = () => {
               <div>{listofMovie.openingText}</div>
             </Card>
           </div>
-        ))}
+        ))} </div>}
+       
       </section>
     </div>
   );
