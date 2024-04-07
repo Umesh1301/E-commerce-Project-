@@ -8,9 +8,12 @@ const Home = () => {
   const [movie, setMovie] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  const [title, setTitle] = useState("");
+  const [openingText, setOpeningText] = useState("");
   console.log(error);
 
-  const fetchMoviesHandler = useCallback( async () => {
+  const fetchMoviesHandler = useCallback(async () => {
     setIsLoading(true);
     setError(null);
     try {
@@ -42,22 +45,20 @@ const Home = () => {
       console.log(error);
     }
     setIsLoading(false);
-  },[]);
+  }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     fetchMoviesHandler();
-  },[])
+  }, []);
 
   // const t = setTimeout(() => {
   //   fetchMoviesHandler();
   // }, 5000);
-  
+
   // const clearTimeOut = () => {
   //   console.log("first")
   //   clearTimeout(t);
   // }
-
-
 
   console.log(movie);
 
@@ -91,6 +92,19 @@ const Home = () => {
     content = <p>Loading....</p>;
   }
 
+  const submitHandler = (event) => {
+    event.preventDefault();
+    console.log(title, openingText);
+    setTitle("");
+    setOpeningText("");
+  };
+  // const TitleHandler = (e) => {
+  //   setTitle(e.target.value);
+  // };
+  // const OpeningTextHandler = (e) => {
+  //   setOpeningText(e.target.value);
+  // };
+
   return (
     <div>
       <div
@@ -115,6 +129,12 @@ const Home = () => {
           >
             Get our Latest Album
           </Button>
+          <Button
+            variant="outlined"
+            sx={{ color: "white", borderColor: "skyblue", marginLeft: "10px" }}
+          >
+            ADD MOVIES
+          </Button>
           <div
             style={{
               color: "skyblue",
@@ -129,6 +149,44 @@ const Home = () => {
         </div>
       </div>
 
+      <div>
+        {" "}
+        <Card sx={{ bgcolor: "yellowgreen", width: "300px" }}>
+          <form onSubmit={submitHandler}>
+            <label htmlFor="title">Title:-</label>
+            <br />
+            <input
+              id="title"
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            ></input>
+            <br />
+            <label htmlFor="openingText">Opening Text:-</label>
+            <br />
+            <input
+              id="openingText"
+              type="text"
+              value={openingText}
+              onChange={(e) => setOpeningText(e.target.value)}
+            ></input>
+
+            <br />
+            <label>Release Date</label>
+            <br />
+            <input type="date"></input>
+            <br />
+            <button
+              variant="contained"
+              sx={{ marginTop: "20px" }}
+              type="submit"
+            >
+              Add
+            </button>
+          </form>
+        </Card>
+      </div>
+
       <div
         style={{ fontSize: "50px", display: "flex", justifyContent: "center" }}
       >
@@ -136,48 +194,7 @@ const Home = () => {
         TOUR
       </div>
       {/* <Button onClick={clearTimeOut}>Stop Retrying</Button> */}
-      {/* <div
-        style={{
-          display: "flex",
-          flexDirection:'column',
-       alignItems:'center',
-         
-          textDecoration: "underline"
-        }}
-      >
-        <div style={{  fontSize: "40px",marginBottom:'10px' }}>
-          {" "}
-          Jul 16 Agra Music Theater{" "}
-          <Button variant="contained" size="small">BUY TICKET</Button>
-        </div>
-        <div style={{marginBottom:'10px', fontSize: "40px" }}>
-          {" "}
-          Jul 19 Dlehi Stage Theater{" "}
-          <Button variant="contained" size="small">BUY TICKET</Button>
-        </div>
-        <div style={{ marginBottom:'10px', fontSize: "40px" }}>
-          {" "}
-          Jul 22 Mumbai Live Theater{" "}
-          <Button variant="contained" size="small">BUY TICKET</Button>
-        </div>
-        <div style={{ marginBottom:'10px', fontSize: "40px" }}>
-          {" "}
-          Jul 30 Bagnlore IT hub Theater{" "}
-          <Button variant="contained" size="small">BUY TICKET</Button>
-        </div>
-        <div style={{ marginBottom:'10px', fontSize: "40px" }}>
-          {" "}
-          Aug 29 Kolkata Ammunation {" "}
-          <Button variant="contained" size="small">BUY TICKET</Button>
-        </div>
-        <div style={{ marginBottom:'10px', fontSize: "40px" }}>
-          {" "}
-          Dec 25 Ghaziabad Automobile{" "}
-          <Button variant="contained" size="small">BUY TICKET</Button>
-        </div>
-        
-        
-      </div> */}
+
       <section
         style={{
           display: "flex",
