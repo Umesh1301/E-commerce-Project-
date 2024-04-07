@@ -1,6 +1,6 @@
 import { PlayCircleOutlineRounded } from "@mui/icons-material";
 import { Button, Card } from "@mui/material";
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 // import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import CircularProgress from "@mui/material/CircularProgress";
 
@@ -10,7 +10,7 @@ const Home = () => {
   const [error, setError] = useState(null);
   console.log(error);
 
-  const fetchMoviesHandler = async () => {
+  const fetchMoviesHandler = useCallback( async () => {
     setIsLoading(true);
     setError(null);
     try {
@@ -42,7 +42,11 @@ const Home = () => {
       console.log(error);
     }
     setIsLoading(false);
-  };
+  },[]);
+
+  useEffect(()=>{
+    fetchMoviesHandler();
+  },[])
 
   // const t = setTimeout(() => {
   //   fetchMoviesHandler();
@@ -131,7 +135,7 @@ const Home = () => {
         {" "}
         TOUR
       </div>
-      <Button onClick={clearTimeOut}>Stop Retrying</Button>
+      {/* <Button onClick={clearTimeOut}>Stop Retrying</Button> */}
       {/* <div
         style={{
           display: "flex",
