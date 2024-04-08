@@ -17,7 +17,9 @@ const Home = () => {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fetch("https://swapi.dev/api/films/");
+      const response = await fetch(
+        "https://ecommerce-db185-default-rtdb.firebaseio.com/movies.json"
+      );
       if (!response.ok) {
         throw new Error("Something Went Wrong");
       }
@@ -29,15 +31,30 @@ const Home = () => {
       // .then((response) => {
       const data = await response.json();
 
-      const transformedMovie = data.results.map((movieData) => {
-        return {
-          id: movieData.episode_id,
-          title: movieData.title,
-          openingText: movieData.opening_crawl,
-          releaseDate: movieData.release_date,
-        };
-      });
-      setMovie(transformedMovie);
+console.log(data);
+
+const loadedMovies =[];
+for(const key in data){
+  loadedMovies.push({
+    id:key,
+    title: data[key].title,
+    openingText:data[key].openingText,
+    releaseDate:data[key].releaseDate,
+
+  })
+}
+
+// Through this transformedMovie we get the movie from the server with the help of the get request
+
+      // const transformedMovie = data.map((movieData) => {
+      //   return {
+      //     id: movieData.episode_id,
+      //     title: movieData.title,
+      //     openingText: movieData.opening_crawl,
+      //     releaseDate: movieData.release_date,
+      //   };
+      // });
+      setMovie(loadedMovies);
     } catch (error) {
       // setError(error.SyntaxError);
       setError(error.message);
@@ -59,6 +76,19 @@ const Home = () => {
   //   console.log("first")
   //   clearTimeout(t);
   // }
+
+  const addMovieHandler = async (movies) => {
+    const response = await fetch(
+      "https://ecommerce-db185-default-rtdb.firebaseio.com/movies.json",
+      {
+        method: "POST",
+        body: JSON.stringify(movies),
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    const data = response.json();
+    console.log(data);
+  };
 
   console.log(movie);
 
@@ -105,6 +135,13 @@ const Home = () => {
   //   setOpeningText(e.target.value);
   // };
 
+  // const movies ={
+  //   title: titleRef.current.value,
+  //   openingText: openingTextRef.current.value,
+  //   releaseDate: releaseDateRef.current.value,
+
+  // };
+
   return (
     <div>
       <div
@@ -129,12 +166,7 @@ const Home = () => {
           >
             Get our Latest Album
           </Button>
-          <Button
-            variant="outlined"
-            sx={{ color: "white", borderColor: "skyblue", marginLeft: "10px" }}
-          >
-            ADD MOVIES
-          </Button>
+        
           <div
             style={{
               color: "skyblue",
@@ -180,9 +212,17 @@ const Home = () => {
               variant="contained"
               sx={{ marginTop: "20px" }}
               type="submit"
+             
             >
               Add
             </button>
+            <Button
+            variant="outlined"
+            sx={{ color: "white", borderColor: "skyblue", marginLeft: "10px" }}
+            onClick={()=>addMovieHandler(openingText)}
+          >
+            ADD MOVIES
+          </Button>
           </form>
         </Card>
       </div>
