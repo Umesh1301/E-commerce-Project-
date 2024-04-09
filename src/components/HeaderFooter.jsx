@@ -45,6 +45,13 @@ const HeaderFooter = () => {
               {" "}
               ABOUT
             </Typography>
+            <Typography
+              sx={{ flexGrow: 1, cursor: "pointer" }}
+              onClick={() => navigate("/contactUs")}
+            >
+              {" "}
+              CONTACT US
+            </Typography>
             <Typography sx={{ flexGrow: 1,cursor:'pointer' }} onClick={()=>navigate("/store")}>STORE</Typography>
             <Badge badgeContent={cartItem.length}>
               <ShoppingCart

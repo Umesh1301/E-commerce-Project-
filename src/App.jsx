@@ -7,6 +7,7 @@ import CartItems from "./components/CartItems";
 import About from "./components/About";
 import Home from "./components/Home";
 import Store from "./components/Store";
+import ContactUs from "./components/ContactUs";
 
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
 
    
     <Route path="/store" element={<Store/>}/>
+    <Route path="/contactUs" element={<ContactUs/>}/>
     <Route path="/home" element={<Home/>}/>
   
       <Route path="cartItems" element={<CartItems/>}>

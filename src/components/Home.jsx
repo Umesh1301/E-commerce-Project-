@@ -23,7 +23,7 @@ const Home = () => {
       if (!response.ok) {
         throw new Error("Something Went Wrong");
       }
-      console.log(response);
+      console.log(response, "okok");
       // if(response.status === 200){
       //  setIsLoading(false)
       // }
@@ -31,20 +31,19 @@ const Home = () => {
       // .then((response) => {
       const data = await response.json();
 
-console.log(data);
+      console.log(data);
 
-const loadedMovies =[];
-for(const key in data){
-  loadedMovies.push({
-    id:key,
-    title: data[key].title,
-    openingText:data[key].openingText,
-    releaseDate:data[key].releaseDate,
+      const loadedMovies = [];
+      for (const key in data) {
+        loadedMovies.push({
+          id: key,
+          title: data[key].title,
+          openingText: data[key].openingText,
+          releaseDate: data[key].releaseDate,
+        });
+      }
 
-  })
-}
-
-// Through this transformedMovie we get the movie from the server with the help of the get request
+      // Through this transformedMovie we get the movie from the server with the help of the get request
 
       // const transformedMovie = data.map((movieData) => {
       //   return {
@@ -77,20 +76,47 @@ for(const key in data){
   //   clearTimeout(t);
   // }
 
-  const addMovieHandler = async (movies) => {
+  const addMovieHandler = async () => {
+    const movieData = {
+      title: title,
+      openingText: openingText,
+    };
     const response = await fetch(
       "https://ecommerce-db185-default-rtdb.firebaseio.com/movies.json",
       {
         method: "POST",
-        body: JSON.stringify(movies),
+        body: JSON.stringify(movieData),
         headers: { "Content-Type": "application/json" },
       }
     );
+    console.log(response, "OK");
     const data = response.json();
     console.log(data);
+    if (response.status === 200) {
+      fetchMoviesHandler();
+    }
   };
 
   console.log(movie);
+
+  const movieDeleteHandler = async (id) => {
+    console.log(id);
+
+    const response = await fetch(
+      `https://ecommerce-db185-default-rtdb.firebaseio.com/movies/${id}.json`,
+      {
+        method: "DELETE",
+        // body: JSON.stringify(movieData),
+        // headers: { "Content-Type": "application/json" },
+      }
+    );
+    const data = response.json();
+
+    if(response.status === 200){
+      
+      fetchMoviesHandler()
+    }
+  };
 
   let content = <p>Found no Movies</p>;
   if (movie.length > 0) {
@@ -109,6 +135,13 @@ for(const key in data){
             >
               <div>{listofMovie.title}</div>
               <div>{listofMovie.openingText}</div>
+              <Button
+                variant="outlined"
+                sx={{ color: "white" }}
+                onClick={() => movieDeleteHandler(listofMovie.id)}
+              >
+                Delete
+              </Button>
             </Card>
           </div>
         ))}{" "}
@@ -166,7 +199,6 @@ for(const key in data){
           >
             Get our Latest Album
           </Button>
-        
           <div
             style={{
               color: "skyblue",
@@ -212,17 +244,20 @@ for(const key in data){
               variant="contained"
               sx={{ marginTop: "20px" }}
               type="submit"
-             
             >
               Add
             </button>
             <Button
-            variant="outlined"
-            sx={{ color: "white", borderColor: "skyblue", marginLeft: "10px" }}
-            onClick={()=>addMovieHandler(openingText)}
-          >
-            ADD MOVIES
-          </Button>
+              variant="outlined"
+              sx={{
+                color: "white",
+                borderColor: "skyblue",
+                marginLeft: "10px",
+              }}
+              onClick={() => addMovieHandler()}
+            >
+              ADD MOVIES
+            </Button>
           </form>
         </Card>
       </div>
@@ -241,6 +276,7 @@ for(const key in data){
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
+          marginBottom: "50px",
         }}
       >
         {/* {isLoading ? (
