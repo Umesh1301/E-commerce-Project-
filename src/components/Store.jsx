@@ -47,6 +47,7 @@ const Store = () => {
                   src={articles.image}
                   alt="loading"
                   style={{ maxWidth: "100%", maxHeight: "100%" }}
+                  onClick={()=>navigate("/products")}
                 />
                 <div>
                   {" "}

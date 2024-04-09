@@ -11,6 +11,7 @@ const Home = () => {
 
   const [title, setTitle] = useState("");
   const [openingText, setOpeningText] = useState("");
+  const [date,setDate]=useState("")
   console.log(error);
 
   const fetchMoviesHandler = useCallback(async () => {
@@ -80,6 +81,7 @@ const Home = () => {
     const movieData = {
       title: title,
       openingText: openingText,
+      date:date
     };
     const response = await fetch(
       "https://ecommerce-db185-default-rtdb.firebaseio.com/movies.json",
@@ -160,6 +162,7 @@ const Home = () => {
     console.log(title, openingText);
     setTitle("");
     setOpeningText("");
+    setDate("")
   };
   // const TitleHandler = (e) => {
   //   setTitle(e.target.value);
@@ -238,7 +241,7 @@ const Home = () => {
             <br />
             <label>Release Date</label>
             <br />
-            <input type="date"></input>
+            <input type="datetime-local" value={date} onChange={(e)=>setDate(e.target.value)}></input>
             <br />
             <button
               variant="contained"
