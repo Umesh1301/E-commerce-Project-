@@ -16,6 +16,7 @@ import ProductDetails from "./components/ProductDetails";
 import Products from "./components/Products";
 import ReactHookForm from "./components/ReactHookForm";
 import SignUpForm from "./Credentials/SignUpForm";
+import SignInForm from "./components/SignInForm";
 
 function App() {
   const dispatch = useDispatch();
@@ -51,6 +52,7 @@ function App() {
       {/* <ReactHookForm/> */}
 
       <SignUpForm/>
+      <SignInForm/>
       <Routes>
         <Route path="/store" element={<Store />} />
         <Route path="/products" element={<Products />} />

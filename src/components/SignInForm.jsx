@@ -1,54 +1,53 @@
 import { DevTool } from "@hookform/devtools";
+import { Button } from "@mui/material";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { signUpAction } from "../store/actions/asyncAuthAction";
+import {signInAction} from "../store/actions/asyncAuthAction"
 
-const SignUpForm = () => {
-    const form = useForm();
-    const dispatch=useDispatch()
+const SignInForm = () => {
+  const form = useForm();
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-
   const { register, control, handleSubmit } = form;
 
-  const object = {
+  const userDetail = {
     Email: email,
     Password: password,
   };
 
+
   const submit = () => {
-  dispatch(signUpAction(object));
-  dispatch()
+    dispatch(signInAction(userDetail));
+
   };
 
   return (
     <div>
       <form onSubmit={handleSubmit(submit)}>
-        <label htmlFor="email">UserName</label>
+        <label htmlFor="email">Email</label>
         <input
           type="email"
           id="email"
           {...register("email")}
           onChange={(e) => setEmail(e.target.value)}
-        ></input>
+        />
         <br />
-        <label htmlFor="password">PassWord</label>
-        <br />
+        <label htmlFor="password">Password</label>
         <input
           type="password"
           id="password"
           {...register("password")}
           onChange={(e) => setPassword(e.target.value)}
-        ></input>
+        />
         <br />
 
-        <button>Submit</button>
+        <Button variant="contained" type="submit">SignIn</Button>
       </form>
       <DevTool control={control} />
     </div>
   );
 };
 
-export default SignUpForm;
+export default SignInForm;

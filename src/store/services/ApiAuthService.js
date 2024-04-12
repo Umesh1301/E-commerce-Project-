@@ -42,24 +42,36 @@ class ApiAuthService {
 
   userSignIn = async (userObj) => {
     console.log("3", userObj);
-    const response = await fetch(
-      this.BASE_URL + ":signInWithPassword?key=" + this.API_KEY,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          email: userObj.email,
-          password: userObj.password,
-          returnSecureToken: true,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
+    try {
+      const response = await fetch(
+        this.BASE_URL + ":signInWithPassword?key=" + this.API_KEY,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            email: userObj.Email,
+            password: userObj.Password,
+            returnSecureToken: true,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        alert("sign In Successfull");
+        return data;
+      } else {
+        const errorMessage = await response.json();
+        alert("sign In UN-Successfull   " + errorMessage.error.message);
+        return data;
       }
-    );
-    console.log(response);
-    const data = await response.json();
-    return data;
+    } catch (error) {
+      alert("an Error occured" + error.message);
+    }
   };
+
   forgotPassword = async (userObj) => {
     console.log("3", userObj);
     const response = await fetch(
