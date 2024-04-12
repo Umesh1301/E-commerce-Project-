@@ -14,6 +14,8 @@ import Store from "./components/Store";
 import ContactUs from "./components/ContactUs";
 import ProductDetails from "./components/ProductDetails";
 import Products from "./components/Products";
+import ReactHookForm from "./components/ReactHookForm";
+import SignUpForm from "./Credentials/SignUpForm";
 
 function App() {
   const dispatch = useDispatch();
@@ -39,10 +41,16 @@ function App() {
     dispatch(forgotPasswordAction(newUserObj));
   };
 
+  
   return (
     <div>
+
+
       {" "}
-      <HeaderFooter></HeaderFooter>
+      {/* <HeaderFooter></HeaderFooter> */}
+      {/* <ReactHookForm/> */}
+
+      <SignUpForm/>
       <Routes>
         <Route path="/store" element={<Store />} />
         <Route path="/products" element={<Products />} />

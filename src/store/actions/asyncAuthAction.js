@@ -1,7 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { apiAuthService } from "../services/ApiAuthService";
 
-export const signUpAction = createAsyncThunk("signUpAction", async (userObj) => {
+export const signUpAction = createAsyncThunk(
+  "signUpAction", 
+async (userObj) => {
     console.log('2', userObj)
   const response = await apiAuthService.userSignUp(userObj);
   return response;

@@ -261,6 +261,7 @@ const Home = () => {
             >
               ADD MOVIES
             </Button>
+            
           </form>
         </Card>
       </div>
